@@ -1,0 +1,8 @@
+syntax = "v1"
+
+import "apis/user.api"
+import "apis/tag.api"
+import "apis/dynamic.api"
+import "apis/comment.api"
+import "apis/collect.api"
+import "apis/like.api"

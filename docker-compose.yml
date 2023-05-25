@@ -1,0 +1,30 @@
+version: '3'
+
+networks:
+  zhifou:
+
+services:
+  zhifou-web:
+    image: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-web
+    ports:
+      - "3000:3000"
+    environment:
+      NUXT_PUBLIC_API_BASE: "http://192.168.0.1/v1"
+#  app-api:
+#    image: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-app-api
+#    ports:
+#      - "8000:8000"
+#    links:
+#      - user-rpc
+#      - dynamic-rpc
+#      - tag-rpc
+#    environment:
+#      USER_HOST: user-rpc:8080
+#      DYNAMIC_HOST: dynamic-rpc:8080
+#      TAG_HOST: tag-rpc:8080
+#  user-rpc:
+#    image: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-user-rpc
+#  dynamic-rpc:
+#    image: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-dynamic-rpc
+#  tag-rpc:
+#    image: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-tag-rpc

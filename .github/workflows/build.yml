@@ -1,0 +1,257 @@
+name: build
+
+on:
+  release:
+    types:
+      - "published"
+
+jobs:
+  build-app-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./app
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-app-api:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-app-api:${{ env.RELEASE_VERSION }}
+          file: ./app/Dockerfile-k8s
+
+  build-user-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./user
+          file: ./user/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-user-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-user-rpc:${{ env.RELEASE_VERSION }}
+
+  build-dynamic-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./dynamic
+          file: ./dynamic/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-dynamic-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-dynamic-rpc:${{ env.RELEASE_VERSION }}
+
+  build-tag-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./tag
+          file: ./tag/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-tag-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-tag-rpc:${{ env.RELEASE_VERSION }}
+
+  build-like-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./like
+          file: ./like/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-like-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-like-rpc:${{ env.RELEASE_VERSION }}
+
+  build-collect-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./collect
+          file: ./collect/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-collect-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-collect-rpc:${{ env.RELEASE_VERSION }}
+
+  build-comment-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./comment
+          file: ./comment/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-comment-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-comment-rpc:${{ env.RELEASE_VERSION }}
+
+  build-idgen-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./idgen
+          file: ./idgen/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-idgen-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-idgen-rpc:${{ env.RELEASE_VERSION }}
+
+  build-gorse-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./gorse
+          file: ./gorse/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-gorse-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-gorse-rpc:${{ env.RELEASE_VERSION }}
+
+  build-nats-rpc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Login to Aliyun Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: registry.cn-hangzhou.aliyuncs.com
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: ./nats
+          file: ./nats/Dockerfile-k8s
+          push: true
+          tags: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-nats-rpc:latest,registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-nats-rpc:${{ env.RELEASE_VERSION }}

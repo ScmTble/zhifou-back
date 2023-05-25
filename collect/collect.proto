@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package collect;
+option go_package="./pb";
+
+// 添加收藏或取消收藏
+message InsertCollectReq {
+  string PostId = 1;
+  string UserId = 2;
+  bool Action = 3; // true：收藏
+}
+
+message InsertCollectResp {
+  bool Success = 1;
+}
+
+// 分页获取用户的全部收藏
+message GetCollectReq {
+  string UserId = 1;
+  int64 Offset = 2;
+  int64 Num = 3;
+}
+message GetCollectResp {
+  repeated string Ids = 1;
+}
+
+// 查询用户是否已经收藏动态
+message GetStatusReq {
+  string PostId = 1;
+  string UserId = 2;
+}
+
+
+message GetStatusResp {
+  bool Status = 1;
+}
+
+
+// 获取当前动态的收藏数量
+message GetNumReq {
+  string PostId = 1;
+}
+
+message GetNumResp {
+  int64 Num = 1;
+}
+
+service Collect {
+  rpc InsertCollect(InsertCollectReq) returns(InsertCollectResp);
+  rpc GetCollect(GetCollectReq) returns(GetCollectResp);
+  rpc GetStatus(GetStatusReq) returns(GetStatusResp);
+  rpc GetNum(GetNumReq) returns(GetNumResp);
+}

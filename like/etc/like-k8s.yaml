@@ -1,0 +1,18 @@
+Name: like.rpc
+ListenOn: 0.0.0.0:8005
+Etcd:
+  Hosts:
+    - ${ETCD_HOST}
+  Key: like.rpc
+
+Rueidis:
+  Address:
+    - ${REDIS_HOST}
+  DB: 1
+
+#链路追踪
+Telemetry:
+  Name: like-rpc
+  Endpoint: ${JAEGER_ENDPOINT}
+  Sampler: 1.0
+  Batcher: jaeger

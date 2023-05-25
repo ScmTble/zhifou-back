@@ -1,0 +1,22 @@
+syntax = "v1"
+
+// 点赞或取消点赞
+type InsertUpvotedReq {
+    PostId string `json:"post_id"`
+}
+
+type InsertUpvotedResp {
+    Status bool `json:"status"`
+}
+
+// 需要登录
+@server(
+    group: like
+    prefix: /v1
+    middleware: JwtAuth
+)
+service app {
+    // 点赞
+    @handler InsertUpvote
+    post /like (InsertUpvotedReq) returns(InsertUpvotedResp)
+}

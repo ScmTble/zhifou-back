@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package comment;
+option go_package="./pb";
+
+// 通用响应
+message CommonCommentResp {
+  string Id = 1;
+  string PostId = 2;
+  string UserId = 3;
+  string Content = 4;
+  int64 CreatedTime = 5;
+  int64 UpdatedTime = 6;
+  int64 DeletedTime = 7;
+}
+
+// 新增评论
+message InsertCommentReq {
+  string UserId = 1;
+  string PostId = 2;
+  string Content = 3;
+}
+
+message InsertCommentResp {
+  string Id = 1;
+  string PostId = 2;
+  string UserId = 3;
+  string Content = 4;
+  int64 CreatedTime = 5;
+  int64 UpdatedTime = 6;
+  int64 DeletedTime = 7;
+}
+
+// 获取对应动态的全部评论
+message GetCommentReq {
+  string PostId = 1;
+}
+
+message GetCommentResp {
+  repeated CommonCommentResp Comments = 1;
+}
+
+// 获取评论数
+message GetCommentCountReq {
+  string PostId = 1;
+}
+
+message GetCommentCountResp {
+  int64 Num = 1;
+}
+
+service Comment {
+  rpc InsertComment(InsertCommentReq) returns(InsertCommentResp);
+  rpc GetComment(GetCommentReq) returns(GetCommentResp);
+  rpc GetCommentCount(GetCommentCountReq) returns(GetCommentCountResp);
+}

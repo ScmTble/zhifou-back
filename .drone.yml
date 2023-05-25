@@ -1,0 +1,50 @@
+kind: pipeline
+type: docker
+name: zhifou-build
+
+steps:
+  - name: build-app-api
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-app-api
+      tags:
+        # - ${DRONE_TAG}
+        - latest
+      registry: registry.cn-hangzhou.aliyuncs.com
+      dockerfile: app/Dockerfile
+
+  - name: build-user-rpc
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-user-rpc
+      tags:
+        # - ${DRONE_TAG}
+        - latest
+      registry: registry.cn-hangzhou.aliyuncs.com
+      dockerfile: user/rpc/Dockerfile
+
+  - name: build-dynamic-rpc
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: registry.cn-hangzhou.aliyuncs.com/scmtble/zhifou-dynamic-rpc
+      tags:
+        # - ${DRONE_TAG}
+        - latest
+      registry: registry.cn-hangzhou.aliyuncs.com
+      dockerfile: dynamic/rpc/Dockerfile
+
+  - name: success
+    image: alpine
+    depends_on: [build-app-api, build-user-rpc, build-dynamic-rpc]

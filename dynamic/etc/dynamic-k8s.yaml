@@ -1,0 +1,21 @@
+Name: dynamic.rpc
+ListenOn: 0.0.0.0:8002
+
+Etcd:
+  Hosts:
+    - ${ETCD_HOST}
+  Key: dynamic.rpc
+
+IgRpc:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: idgen.rpc
+  NonBlock: false
+
+#链路追踪
+Telemetry:
+  Name: dynamic-rpc
+  Endpoint: ${JAEGER_ENDPOINT}
+  Sampler: 1.0
+  Batcher: jaeger

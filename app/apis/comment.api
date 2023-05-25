@@ -1,0 +1,51 @@
+syntax = "v1"
+
+type CommentResp {
+    Id string `json:"id"`
+    PostId string `json:"post_id"`
+    User *CommonUserResp `json:"user"`
+    Content string `json:"content"`
+    CreatedTime int64 `json:"created_time"`
+}
+
+// 获取指定动态下的评论
+type GetCommentReq {
+    PostId string `path:"post_id"`
+}
+
+type GetCommentResp {
+    Comments []*CommentResp `json:"comments"`
+}
+
+// 插入评论
+type InsertCoomentReq {
+    PostId string  `json:"post_id"`
+    Content string `json:"content"`
+}
+
+type InsertCoomentResp {
+   *CommentResp
+}
+
+@server(
+    group: comment
+    prefix: /v1
+)
+service app {
+    // 获取评论
+    @handler GetComments
+    get /comments/:post_id (GetCommentReq) returns (GetCommentResp)
+}
+
+
+// 需要登录
+@server(
+    group: comment
+    prefix: /v1
+    middleware: JwtAuth
+)
+service app {
+    // 发表评论
+    @handler InsertComment
+    post /comment (InsertCoomentReq) returns(InsertCoomentResp)
+}

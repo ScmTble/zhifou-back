@@ -1,0 +1,116 @@
+syntax = "v1"
+
+// 附件
+type Attachment {
+    Type string `json:"type"`
+    Url   string `json:"url"`
+    Label string `json:"label"`
+}
+
+// Tag
+type Tag {
+    Label string `json:"label"`// 标签名
+    Value string `json:"value"`// id
+}
+// 通用PostResp
+type CommenPostResp {
+    Id string `json:"id"`
+    User        *CommonUserResp `json:"user,omitempty"`
+    Contents    string  `json:"contents"`
+    Attachments []*Attachment `json:"attachments"`
+    Tags        []*Tag  `json:"tags,omitempty"`
+    CreatedTime int64    `json:"created_time"`                       // 创建时间
+    UpvoteCount int64 `json:"upvote_count"`
+    CommentCount int64 `json:"comment_count"`
+    CollectionCount int64  `json:"collection_count"`
+    CollectStatus bool `json:"collect_status"`
+    UpvoteStatus bool `json:"upvote_status"`
+}
+
+// 插入动态
+type InsertPostReq {
+    Attachments []*Attachment `json:"attachments"`
+    Contents    string       `json:"contents"`
+    Tags        []string     `json:"tags"`       // 标签
+}
+
+type InsertPostResp {
+    *CommenPostResp
+}
+
+// 分页获取动态
+type GetDynamicReq {
+    LastId string `form:"last_id"`
+    PageNum int64 `form:"page_num"`
+}
+
+type GetDynamicResp {
+    list []*CommenPostResp `json:"list,omitempty"`
+}
+
+// 获取动态详情
+type GetDynamicDetailReq {
+    Id string `path:"id"`
+}
+
+type GetDynamicDetailResp {
+    *CommenPostResp
+}
+
+// 分页查询动态根据Tag
+type QueryDynamicReq {
+    TagId string `form:"tag_id"`
+    LastId string `form:"last_id"`
+    PageNum int64 `form:"page_num"`
+}
+
+type QueryDynamicResp {
+    list []*CommenPostResp `json:"list,omitempty"`
+}
+
+// 分页查询动态根据UserId
+type QueryUserReq {
+    UserId string `form:"user_id"`
+    LastId string `form:"last_id"`
+    PageNum int64 `form:"page_num"`
+}
+
+type QueryUserResp {
+    list []*CommenPostResp `json:"list,omitempty"`
+}
+
+@server(
+    // 需要登录
+    group: dynamic
+    prefix: /v1
+    middleware: JwtAuth
+)
+service app {
+    // 新建动态
+    @handler InsertDynamic
+    post /post (InsertPostReq) returns(InsertPostResp)
+}
+
+
+@server(
+    group: dynamic
+    prefix: /v1
+)
+service app {
+    // 获取动态
+    @handler GetDynamic
+    get /posts (GetDynamicReq) returns(GetDynamicResp)
+
+    // 获取动态详情
+    @handler GetDynamicDetail
+    get /post/:id (GetDynamicDetailReq) returns(GetDynamicDetailResp)
+
+    // 根据Tag查询动态
+    @handler QueryDynamic
+    get /query_tag (QueryDynamicReq) returns(QueryDynamicResp)
+
+
+    // 根据UserId查询动态
+    @handler QueryUser
+    get /query_user (QueryUserReq) returns(QueryUserResp);
+}

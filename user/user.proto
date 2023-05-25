@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package user;
+option go_package="./pb";
+
+message LoginReq {
+  string Username = 1;
+  string Password = 2;
+}
+
+message LoginResp {
+  string Id = 1; // 用户ID
+  string Nickname = 2; // 昵称
+  string Username = 3; // 用户名
+  string Password = 4; // MD5密码
+  string Avatar = 5; // 用户头像
+  bool IsAdmin = 6; // 是否管理员
+  int64 CreatedTime = 7; // 创建时间
+  int64 UpdatedTime = 8; // 修改时间
+  int64 DeletedTime = 9; // 删除时间
+}
+
+message RegisterReq {
+  string Username = 1;
+  string Password = 2;
+}
+
+message RegisterResp {
+  string Id = 1; // 用户ID
+  string Nickname = 2; // 昵称
+  string Username = 3; // 用户名
+  string Password = 4; // MD5密码
+  string Avatar = 5; // 用户头像
+  bool IsAdmin = 6; // 是否管理员
+  int64 CreatedTime = 7; // 创建时间
+  int64 UpdatedTime = 8; // 修改时间
+  int64 DeletedTime = 9; // 删除时间
+}
+
+message GetOneReq {
+  string Id = 1;
+}
+
+message GetOneResp {
+  string Id = 1; // 用户ID
+  string Nickname = 2; // 昵称
+  string Username = 3; // 用户名
+  string Password = 4; // MD5密码
+  string Avatar = 5; // 用户头像
+  bool IsAdmin = 6; // 是否管理员
+  int64 CreatedTime = 7; // 创建时间
+  int64 UpdatedTime = 8; // 修改时间
+  int64 DeletedTime = 9; // 删除时间
+}
+
+
+message GetOneByNameReq{
+  string UserName = 1;
+}
+
+message GetOneByNameResp {
+  string Id = 1; // 用户ID
+  string Nickname = 2; // 昵称
+  string Username = 3; // 用户名
+  string Password = 4; // MD5密码
+  string Avatar = 5; // 用户头像
+  bool IsAdmin = 6; // 是否管理员
+  int64 CreatedTime = 7; // 创建时间
+  int64 UpdatedTime = 8; // 修改时间
+  int64 DeletedTime = 9; // 删除时间
+}
+
+
+service User {
+  rpc Login(LoginReq) returns(LoginResp);
+  rpc Register(RegisterReq) returns(RegisterResp);
+  rpc GetOne(GetOneReq) returns(GetOneResp);
+  rpc GetOneByName(GetOneByNameReq) returns(GetOneByNameResp);
+}

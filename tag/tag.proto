@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package tag;
+option go_package="./pb";
+
+message TagInfo {
+  string Id = 1; // 标签ID
+  string Tag = 2; // 标签名
+  string Avatar = 3; // tag图标
+  int64 QuoteNum = 4; // 引用数
+  int64 CreatedTime = 5; // 创建时间
+  int64 UpdatedTime = 6; // 修改时间
+  int64 DeletedTime = 7; // 删除时间
+}
+
+// 插入一个Tag
+message InsertTagReq {
+  string Tag = 1; // 标签名
+  string Avatar = 2; // tag图标
+}
+
+message InsertTagResp {
+  string Id = 1; // 标签ID
+}
+
+// 分页获取Tag
+message ListTagReq {
+  int64 Page = 1;
+  int64 PageSize = 2;
+}
+
+message ListTagResp {
+  repeated TagInfo Topics = 1;
+}
+
+// 获取热点Tag
+message ListHotTagReq{
+    int64 Num = 1; // 获取hot
+}
+
+message ListHotTagResp{
+  repeated TagInfo Topics = 1;
+}
+
+// 获取最新Tag
+message ListNewTagReq{
+  int64 Num = 1; // 获取hot
+}
+
+message ListNewTagResp{
+  repeated TagInfo Topics = 1;
+}
+
+// 获取一个Tag详情
+message FindOneReq {
+  string Id = 1;
+}
+
+message FindOneResp {
+  string Id = 1; // 标签ID
+  string Tag = 2; // 标签名
+  string Avatar = 3; // tag图标
+  int64 QuoteNum = 4; // 引用数
+  int64 CreatedTime = 5; // 创建时间
+  int64 UpdatedTime = 6; // 修改时间
+  int64 DeletedTime = 7; // 删除时间
+}
+
+service Tag {
+  rpc InsertTag(InsertTagReq) returns(InsertTagResp);
+  rpc ListTags(ListTagReq) returns(ListTagResp);
+  rpc ListHotTags(ListHotTagReq) returns(ListHotTagResp);
+  rpc ListNewTags(ListNewTagReq) returns(ListNewTagResp);
+  rpc FindOne(FindOneReq) returns(FindOneResp);
+}

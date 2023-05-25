@@ -1,0 +1,39 @@
+syntax = "v1"
+
+type CommonTagResp {
+    Id          string `json:"id"`          // 标签ID
+    Tag         string `json:"tag"`         // 标签名
+    Avatar      string `json:"avatar"`      // tag图标
+    QuoteNum    int64  `json:"quote_num"`   // 引用数
+}
+
+// 列出Tag
+type ListTagReq {
+    Type string `form:"type"`
+    Num int64 `form:"num"`
+}
+
+type ListTagResp {
+    Topics []*CommonTagResp `json:"topics"`
+}
+
+// 查找Tag
+type QueryTagReq {
+    Id string `path:"id"`
+}
+
+type QueryTagResp {
+    *CommonTagResp
+}
+
+@server(
+    group: tag
+    prefix: /v1
+)
+service app {
+    @handler listTag
+    get /tags (ListTagReq) returns (ListTagResp)
+
+    @handler queryTag
+    get /tag/:id (QueryTagReq) returns (QueryTagResp)
+}

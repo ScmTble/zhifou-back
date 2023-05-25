@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package dynamic;
+option go_package="./pb";
+
+message Attachment{
+  string Type = 1;
+  string Label = 2;
+  string Url = 3;
+}
+
+message Tag {
+  string Label = 1;
+  string Value = 2;
+}
+
+// 新增动态
+message InsertPostReq {
+  string UserId = 1;
+  string Contents = 2;
+  repeated Attachment Attachments = 3;
+  repeated Tag Tags = 4;
+}
+
+message InsertPostResp {
+  string Id = 1;
+  string UserId = 2;
+  string Contents = 3;
+  repeated Attachment Attachments = 4;
+  repeated Tag Tags = 5;
+  int64 CreatedTime = 6; // 创建时间
+  int64 UpdatedTime = 7;// 修改时间
+  int64 DeletedTime = 8;// 删除时间
+  bool IsDel = 9; //是否删除
+}
+
+// 分页获取动态
+message GetDynamicReq {
+  string LastId = 2;
+  int64 PageNum = 3;
+}
+
+message GetDynamicResp {
+  repeated CommonResp data = 1;
+}
+
+
+// 查询一个
+message FindOneReq {
+  string Id = 1;
+}
+
+message FindOneResp {
+  string Id = 1;
+  string UserId = 2;
+  string Contents = 3;
+  repeated Attachment Attachments = 4;
+  repeated Tag Tags = 5;
+  int64 CreatedTime = 6; // 创建时间
+  int64 UpdatedTime = 7;// 修改时间
+  int64 DeletedTime = 8;// 删除时间
+  bool IsDel = 9; //是否删除
+}
+
+// 查询许多
+message FindManyReq {
+  repeated string Ids = 1;
+}
+
+message CommonResp {
+  string Id = 1;
+  string UserId = 2;
+  string Contents = 3;
+  repeated Attachment Attachments = 4;
+  repeated Tag Tags = 5;
+  int64 CreatedTime = 6; // 创建时间
+  int64 UpdatedTime = 7;// 修改时间
+  int64 DeletedTime = 8;// 删除时间
+  bool IsDel = 9; //是否删除
+}
+
+message FindManyReqResp {
+  repeated CommonResp Data = 1;
+}
+
+// 分页查询某个Tag的全部动态
+message QueryTagReq {
+  string TagId = 1;
+  string LastId = 2;
+  int64 PageNum = 3;
+}
+
+message QueryTagResp {
+  repeated CommonResp data = 1;
+}
+// 分页查询某个User的全部动态
+message QueryUserReq {
+  string UserId = 1;
+  string LastId = 2;
+  int64 PageNum = 3;
+}
+
+message QueryUserResp {
+  repeated CommonResp Data = 1;
+}
+
+service Dynamic {
+  rpc InsertPost(InsertPostReq) returns(InsertPostResp);
+  rpc GetDynamic(GetDynamicReq) returns(GetDynamicResp);
+  rpc FindPost(FindOneReq) returns(FindOneResp);
+  rpc FindMany(FindManyReq) returns(FindManyReqResp);
+  rpc QueryTag(QueryTagReq) returns(QueryTagResp);
+  rpc QueryUser(QueryUserReq) returns(QueryUserResp);
+}

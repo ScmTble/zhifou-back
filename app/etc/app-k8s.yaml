@@ -1,0 +1,67 @@
+Name: app
+Host: 0.0.0.0
+Port: 8000
+
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: user.rpc
+  NonBlock: true
+
+DynamicRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: dynamic.rpc
+  NonBlock: true
+
+TagRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: tag.rpc
+  NonBlock: true
+
+CommentRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: comment.rpc
+  NonBlock: true
+
+CollectRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: collect.rpc
+  NonBlock: true
+
+LikeRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: like.rpc
+  NonBlock: true
+
+GorseRpcConf:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: gorse.rpc
+  NonBlock: true
+
+# eg: nats://101.132.129.131:4222
+Nats:
+  Url: ${NATS_URL}
+
+#链路追踪
+Telemetry:
+  Name: app-api
+  Endpoint: ${JAEGER_ENDPOINT}
+  Sampler: 1.0
+  Batcher: jaeger
+
+JwtAuth:
+  AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
+  AccessExpire: 86400

@@ -1,0 +1,16 @@
+Name: idgen.rpc
+ListenOn: 0.0.0.0:7000
+
+Etcd:
+  Hosts:
+    - ${ETCD_HOST}
+  Key: idgen.rpc
+
+Node: 1
+
+#链路追踪
+Telemetry:
+  Name: idgen-rpc
+  Endpoint: ${JAEGER_ENDPOINT}
+  Sampler: 1.0
+  Batcher: jaeger

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package user;
+option go_package="./pb";
+
+// 点赞或取消点赞
+message InsertUpvoteReq {
+  string PostId = 1;
+  string UserId = 2;
+  bool Action = 3;
+}
+
+message InsertUpvoteResp {
+  bool Success = 1;
+}
+
+// 查询用户是否已经点赞动态
+message GetStatusReq {
+  string PostId = 1;
+  string UserId = 2;
+}
+
+message GetStatusResp {
+  bool Status = 1;
+}
+
+// 获取点赞数量
+message GetNumReq {
+  string PostId = 1;
+}
+
+message GetNumResp {
+  int64 Num = 1;
+}
+
+service Like {
+  rpc GetNum(GetNumReq) returns(GetNumResp);
+  rpc InsertUpvote(InsertUpvoteReq) returns(InsertUpvoteResp);
+  rpc GetStatus(GetStatusReq) returns(GetStatusResp);
+}

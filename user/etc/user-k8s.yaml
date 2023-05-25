@@ -1,0 +1,22 @@
+# 在k8s环境中使用
+Name: user.rpc
+ListenOn: 0.0.0.0:8001
+
+Etcd:
+  Hosts:
+    - ${ETCD_HOST}
+  Key: user.rpc
+
+IgRpc:
+  Etcd:
+    Hosts:
+      - ${ETCD_HOST}
+    Key: idgen.rpc
+  NonBlock: false
+
+#链路追踪 http://127.0.0.1:14268/api/traces
+Telemetry:
+  Name: user-rpc
+  Endpoint: ${JAEGER_ENDPOINT}
+  Sampler: 1.0
+  Batcher: jaeger

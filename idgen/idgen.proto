@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package idgen;
+option go_package="./pb";
+
+message Empty{
+
+}
+
+message IdGenResp{
+  string id = 1;
+}
+
+service IdGen{
+  rpc IdGenServer(Empty) returns(IdGenResp);
+}

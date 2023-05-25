@@ -1,0 +1,36 @@
+syntax = "v1"
+
+// 收藏或取消收藏
+type InsertCollectReq {
+    PostId string `json:"post_id"`
+}
+
+type InsertCollectResp {
+    Status bool `json:"status"`
+}
+
+// 分页获取收藏
+type GetCollectReq {
+    Offset int64 `form:"offset"`
+    Num int64 `form:"num"`
+}
+
+type GetCollectResp {
+    List []*CommenPostResp `json:"list"`
+}
+
+// 需要登录
+@server(
+    group: collect
+    prefix: /v1
+    middleware: JwtAuth
+)
+service app {
+    // 收藏
+    @handler InsertCollect
+    post /collect (InsertCollectReq) returns(InsertCollectResp)
+
+    // 分页获取收藏
+    @handler GetCollect
+    get /collect (GetCollectReq) returns(GetCollectResp)
+}
